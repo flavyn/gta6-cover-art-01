@@ -1,51 +1,32 @@
-// Wires the page: pick a photo, type a caption, export the square cover as a PNG. A `?shot=` query sets up a fixed
-// scene for a screenshot instead (./shots.js).
-import { drawCover } from './cover.js';
-import { runShot } from './shots.js';
+// Boot: one project, one editor. A `?shot=` query hands the page to a
+// screenshot scene instead, so the stills in screenshots/ are posed by the same
+// painter and encoder the app ships.
 
-const canvas = document.getElementById('cover');
-const caption = document.getElementById('caption');
-const status = document.getElementById('status');
-let photo = null;
+import { createProject } from './project.js';
+import { mountEditor } from './ui.js';
+import { poseEditor, runCoverShot } from './shots.js';
 
-function redraw() {
-  drawCover(canvas, photo, caption.value);
+const query = new URLSearchParams(location.search);
+const scene = query.get('shot');
+
+async function boot() {
+  if (scene === 'cover') {
+    await runCoverShot(location.search);
+    return;
+  }
+
+  const editor = mountEditor(createProject());
+  // The editor's handles, so the screenshot and audit tools can pose a still or
+  // read the framing after a drag the same way the person's hand does.
+  window.coverStudio = editor;
+  if (document.fonts?.ready) await document.fonts.ready;
+  if (scene === 'editor') {
+    await poseEditor(editor, location.search);
+  }
 }
 
-/** Loads an image from a URL, resolving to the image once it can be drawn. */
-export function loadImage(url) {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = url;
-  });
-}
-
-document.getElementById('photo').addEventListener('change', async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-  photo = await loadImage(URL.createObjectURL(file));
-  redraw();
+boot().catch((error) => {
+  const status = document.getElementById('status');
+  if (status) status.textContent = `Something went wrong: ${error.message}`;
+  console.error(error);
 });
-caption.addEventListener('input', redraw);
-document.getElementById('export').addEventListener('click', () => {
-  canvas.toBlob((blob) => {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'cover-1080x1080.png';
-    a.click();
-    status.textContent = 'Saved cover-1080x1080.png';
-  }, 'image/png');
-});
-
-const shot = new URLSearchParams(location.search).get('shot');
-if (shot) {
-  runShot(shot, new URLSearchParams(location.search), async (sample, text) => {
-    photo = await loadImage(sample);
-    caption.value = text;
-    redraw();
-  });
-} else {
-  redraw();
-}

@@ -1,5 +1,6 @@
 [
-  { "name": "1-cover.jpg", "query": "?shot=cover&photo=pier&caption=Sunset%20Heist", "w": 1080, "h": 1080 },
-  { "name": "2-editor.jpg", "query": "?shot=editor&photo=boulevard&caption=Boulevard%20Queen", "w": 1280, "h": 720 },
-  { "name": "3-cover.jpg", "query": "?shot=cover&photo=boulevard&caption=Boulevard%20Queen", "w": 1080, "h": 1080 }
+  { "name": "1-cover.jpg", "scene": "cover", "query": "?shot=cover&size=landscape&layout=hero&grade=sunset&title=Sunset%20Heist&tagline=Paradise%20on%20credit&photos=boulevard,pier,pier&crops=1.06,0.5,0.46;1.3,0.45,0.3;2.0,0.72,0.58", "w": 1280, "h": 720, "note": "the exported 1920 x 1080 cover, shown as the app's own PNG" },
+  { "name": "2-editor.jpg", "scene": "editor", "query": "?shot=editor&size=landscape&layout=hero&grade=sunset&title=Sunset%20Heist&tagline=Paradise%20on%20credit&photos=boulevard,pier&select=1", "w": 1280, "h": 820, "note": "the editor with two photos loaded and a panel selected" },
+  { "name": "3-cover-tall.jpg", "scene": "cover", "query": "?shot=cover&size=portrait&layout=stack&grade=neon&title=Boulevard%20Queen&tagline=She%20drives%20the%20night&photos=boulevard,pier&crops=1.15,0.52,0.3;1.4,0.45,0.3;2.2,0.2,0.14", "w": 1024, "h": 1280, "note": "the exported 1080 x 1350 cover" },
+  { "name": "4-cover-square.jpg", "scene": "cover", "query": "?shot=cover&size=square&layout=quad&grade=vice&title=Pier%20Pressure&tagline=Every%20catch%20has%20a%20price&photos=pier,boulevard&crops=1.05,0.5,0.3;1.05,0.5,0.32;2.0,0.72,0.58;2.2,0.2,0.12", "w": 1080, "h": 1080, "note": "the exported 1080 x 1080 cover" }
 ]

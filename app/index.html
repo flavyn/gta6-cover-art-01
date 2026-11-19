@@ -3,21 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Cover Studio — Vice poster maker</title>
 <link rel="stylesheet" href="./style.css">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
-  </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
-</main>
+<div class="studio">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">Cover Studio</span>
+      <span class="brand-tag">vice edition</span>
+    </div>
+    <p class="topbar-note">Photos are read on this machine. Nothing is uploaded.</p>
+  </header>
+
+  <main class="workspace">
+    <aside class="rail" aria-label="Cover controls">
+      <section class="card">
+        <h2><b>1</b> Photos</h2>
+        <label class="drop" id="drop">
+          <input id="photo" type="file" accept="image/*" multiple>
+          <strong>Choose photos</strong>
+          <span>or drop them here — one fills all panels</span>
+        </label>
+        <div class="chips" id="sample-chips"></div>
+        <div class="chips">
+          <button type="button" class="chip" id="cycle-photo">Swap photo in panel</button>
+          <button type="button" class="chip" id="clear-photos">Clear photos</button>
+        </div>
+        <div class="segmented" id="mode" role="group" aria-label="How photos fill the panels">
+          <button type="button" data-mode="cycle" class="on">Take turns</button>
+          <button type="button" data-mode="single">One everywhere</button>
+        </div>
+        <p class="mini" id="photo-status">No photo yet</p>
+      </section>
+
+      <section class="card">
+        <h2><b>2</b> Panel layout</h2>
+        <div class="layout-grid" id="layout-grid" role="group" aria-label="Panel layout"></div>
+        <p class="mini" id="layout-note"></p>
+      </section>
+
+      <section class="card">
+        <h2><b>3</b> Colour grade</h2>
+        <div class="grade-grid" id="grade-grid" role="group" aria-label="Colour grade"></div>
+      </section>
+
+      <section class="card">
+        <h2><b>4</b> Caption</h2>
+        <label class="field">
+          <span>Title</span>
+          <input id="title" type="text" maxlength="34" autocomplete="off" spellcheck="false" value="Sunset Heist">
+        </label>
+        <label class="field">
+          <span>Tagline</span>
+          <input id="tagline" type="text" maxlength="48" autocomplete="off" spellcheck="false" value="Paradise on credit">
+        </label>
+        <p class="mini" id="caption-note"></p>
+      </section>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div class="stage-left">
+          <span class="stage-title">Live preview</span>
+          <span class="stage-meta" id="stage-meta"></span>
+        </div>
+        <div class="stage-right">
+          <span class="export-label">Save PNG</span>
+          <div class="export-list" id="export-list" role="group" aria-label="Export size"></div>
+        </div>
+      </div>
+      <div class="board" id="board">
+        <canvas id="poster" width="1080" height="1350" aria-label="The cover being built"></canvas>
+      </div>
+      <div class="board-foot">
+        <span class="tip">Click a panel, drag to move the photo, scroll to zoom it.</span>
+        <span class="status" id="status" role="status">Ready</span>
+      </div>
+    </section>
+  </main>
+</div>
 <script type="module" src="./src/main.js"></script>
 </body>
 </html>
